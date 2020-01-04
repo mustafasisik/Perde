@@ -1,0 +1,182 @@
+{% extends 'app/base.html' %}
+{% block body %}
+{% load static %}
+<div class="card mt-3">
+    <div class="card-body">
+        <h5 class="mb-3"><i class="fas fa-plus-circle"></i> Perde Ekle</h5>
+        <form class="needs-validation" method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            <input type="hidden" name="type" value="add_product">
+            <div class="form-row">
+                <div class="col-sm-2">
+                    <img id="blah" class="img-thumbnail" src="{% static 'app/images/perde.jpg' %}"/>
+                </div>
+                <div class="col-sm-10">
+                    <textarea name="description" class="h-100 w-100 p-3" required
+                              placeholder="Lütfen ürünü detaylı şekilde açıklayınız"></textarea>
+                    <div class="invalid-feedback">
+                        Lütfen geçerli bir telefon girin!
+                    </div>
+                </div>
+            </div>
+            <div class="form-row mt-2">
+                <input type="file" id="imgInp" name="image" required>
+                <div class="invalid-feedback">
+                    Lütfen bir dosya seçin!
+                </div>
+                <button type="submit" class="btn btn-primary ml-auto"><i class="fas fa-plus-circle"></i>
+                    Sepete Ekle
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if products %}
+<div class="card mt-3">
+    <h5 class="m-3"><i class="fas fa-shopping-basket"></i> Sepettekiler</h5>
+    <ul class="list-group list-group-flush">
+        {% for product in products %}
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img src="{{product.image.url}}" class="w-100">
+                </div>
+                <div class="col-sm-8">
+                    <p>{{product}}</p>
+                </div>
+                <div class="col-sm-2 row">
+                    <form class="needs-validation ml-auto" method="post" novalidate>
+                        {% csrf_token %}
+                        <input type="hidden" name="productid" value="{{product.id}}">
+                        <input type="hidden" name="type" value="delete_product">
+                        <button class="btn btn-light" type="submit"><i class="fas fa-trash-alt"></i> Sil</button>
+                    </form>
+                </div>
+            </div>
+        </li>
+        {% endfor%}
+    </ul>
+</div>
+
+<div class="card mt-3 mb-5">
+    <div class="card-body">
+        <h5><i class="fas fa-user-tie"></i> Müşteri Bilgileri</h5>
+        <form id="send_form" class="needs-validation ml-auto m-3" method="post" novalidate
+              data-district_url="{% url 'app:get_districts' %}">
+            {% csrf_token %}
+            <div class="form-row mb-3">
+                <div class="col-md-4">
+                    <label for="validationCustom01">Ad</label>
+                    <input type="text" class="form-control" id="validationCustom01" name="name" placeholder="Ad"
+                           required>
+                    <div class="invalid-feedback">
+                        Lütfen geçerli bir ad girin!
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="validationCustom02">Soyad</label>
+                    <input type="text" class="form-control" id="validationCustom02" name="surname"
+                           placeholder="Soyad" required>
+                    <div class="invalid-feedback">
+                        Lütfen geçerli bir soyad girin!
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="validationCustomUsername">Telefon</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupPrepend"><i
+                                        class="fas fa-phone"></i></span>
+                        </div>
+                        <input type="number" class="form-control" id="validationCustomUsername" name="phone"
+                               placeholder="5554443322" min="5000000000" max="5999999999"
+                               aria-describedby="inputGroupPrepend" required>
+                        <div class="invalid-feedback">
+                            Lütfen geçerli bir telefon girin!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-md-6">
+                    <label for="province">İl Seçin</label>
+                    <select class="custom-select d-block w-100" name="province" id="province" required>
+                        <option value="">İl Seçin...</option>
+                        {% for province in provinces %}
+                        <option value="{{province.id}}">{{province.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="district">İlçe Seçin</label>
+                    <select class="custom-select d-block w-100" name="district" id="district" required>
+                        <option value="">İlçe Seçin...</option>
+                        {% for district in districts %}
+                        <option value="districtid">{{district.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-md-12">
+                    <label for="address">Adres</label>
+                    <textarea type="text" class="form-control" id="address" name="address"
+                              placeholder="Adres" required></textarea>
+                    <div class="invalid-feedback">
+                        Lütfen geçerli bir adres girin!
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <button type="submit" class="btn btn-success ml-auto">Siparişi Gönder</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+<script>
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('#blah').attr('src', e.target.result);
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+$("#imgInp").change(function() {
+  readURL(this);
+});
+
+
+$(function() {
+    $('#province').change(function() {
+        provinceid = $('#province').val()
+        if (provinceid != ""){
+            $('#district').hide();
+            let urlDistricts = $('#send_form').data('district_url');
+            $.ajax({
+                url: urlDistricts,
+                type: 'POST',
+                data: {pid : $('#province').val()},
+                success: function(response) {
+                    $('#district').empty(); // clear the current elements in select box
+                    $('#district').html(response);
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+        }
+    });
+});
+
+
+</script>
+
+{% endblock %}
