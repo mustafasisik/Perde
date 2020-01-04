@@ -1,0 +1,7 @@
+<label for="district">İlçe Seçin</label>
+<select class="custom-select d-block w-100" name="district" id="district" required>
+    <option value="">İlçe Seçin...</option>
+    {% for district in districts %}
+    <option>{{district.name}}</option>
+    {% endfor %}
+</select>

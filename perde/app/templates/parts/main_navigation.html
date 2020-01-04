@@ -1,0 +1,40 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'app:index' %}">
+            <img src="{% static 'app/images/pendikperde.png' %}" alt="Logo" height="40px">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'app:index' %}"><i class="fas fa-home"></i> Anasayfa</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'app:index' %}"><i class="fas fa-users"></i> Hakkımızda</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'app:index' %}"><i class="fas fa-th-list"></i> Siparişlerim</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'app:index' %}"><i class="fas fa-lira-sign"></i> Hak Edişlerim</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'app:create_order' %}"><i class="fas fa-plus-circle"></i> Yeni Sipariş Oluştur</a>
+                </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'app:index' %}"><i class="fas fa-envelope"></i> Bize Ulaşın</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>

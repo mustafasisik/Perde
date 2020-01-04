@@ -1,0 +1,176 @@
+{% extends 'app/base.html' %}
+{% block body %}
+<br>
+{% if message %}
+<div class="alert alert-warning" role="alert">
+    {{message}}
+</div>
+{% endif %}
+<br>
+<div class="container jumbotron">
+    {% if user.is_authenticated %}
+    <h3>Legaling'e Kaydol</h3>
+    <small>Kaydınızı tamamlamak için mesleğinizi seçin.</small>
+    <hr>
+    <form class="needs-validation" method="post" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="register_type" value="google">
+        <div class="form-row">
+            <div class="col-md-12 mb-3">
+                <label for="profession">Meslek Seçin</label>
+                <select class="custom-select d-block w-100" name="profession" id="profession" required="">
+                    <option value="">Meslek Seçin...</option>
+                    <option>Avukat</option>
+                    <option>Tercüman</option>
+                    <option>Akademisyen</option>
+                    <option>Hakim/Savcı</option>
+                    <option>Öğrenci</option>
+                    <option>Diğer</option>
+                </select>
+                <div class="invalid-feedback">
+                    Lütfen geçerli bir meslek seçin!
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="invalidCheckx" required>
+                <label class="form-check-label" for="invalidCheckx">
+                    Şart ve koşulları kabul ediyorum.
+                </label>
+                <div class="invalid-feedback">
+                    Kayıt olmak için şart ve koşulları kabul etmelisin.
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-success btn-block" type="submit">Kaydol</button>
+    </form>
+    {% else %}
+    <h3>Legaling'e Kaydol</h3>
+    <small>Sitemize kaydolmak için bilgileri doğru ve eksiksiz doldurun.</small>
+    <hr>
+    <form class="needs-validation" method="post" novalidate>
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom01">Ad</label>
+                <input type="text" class="form-control" id="validationCustom01" name="name" placeholder="Ad" required
+                       oninvalid="this.setCustomValidity('Lütfen geçerli bir ad girin!')"
+                       oninput="setCustomValidity('')">
+                <div class="invalid-feedback">
+                    Lütfen geçerli bir ad girin!
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Soyad</label>
+                <input type="text" class="form-control" id="validationCustom02" name="surname" placeholder="Soyad"
+                       required
+                       oninvalid="this.setCustomValidity('Lütfen geçerli bir soyad numarası girin!')"
+                       oninput="setCustomValidity('')">
+                <div class="invalid-feedback">
+                    Lütfen geçerli bir soyad girin!
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="validationCustomUsername">Telefon</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-phone"></i></span>
+                    </div>
+                    <input type="number" class="form-control" id="validationCustomUsername" name="username"
+                           placeholder="5554443322" min="5000000000" max="5999999999"
+                           aria-describedby="inputGroupPrepend" required
+                           oninvalid="this.setCustomValidity('Lütfen geçerli bir telefon numarası girin!')"
+                           oninput="setCustomValidity('')">
+                    <div class="invalid-feedback">
+                        Lütfen geçerli bir telefon girin!
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+                <label for="state">Meslek Seçin</label>
+                <select class="custom-select d-block w-100" name="profession" id="state" required="">
+                    <option value="">Meslek Seçin...</option>
+                    <option>Avukat</option>
+                    <option>Tercüman</option>
+                    <option>Akademisyen</option>
+                    <option>Hakim/Savcı</option>
+                    <option>Öğrenci</option>
+                    <option>Diğer</option>
+                </select>
+                <div class="invalid-feedback">
+                    Lütfen geçerli bir meslek seçin!
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="validationCustomEmail">Email</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrependEmail"><i class="fas fa-at"></i></span>
+                    </div>
+                    <input type="email" class="form-control" id="validationCustomEmail" name="email" placeholder="Email"
+                           aria-describedby="inputGroupPrependEmail" required>
+                    <div class="invalid-feedback">
+                        Lütfen Geçerli Bir Email Girin!
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+                <label for="validationCustom04">Şifre</label>
+                <input type="password" class="form-control" id="validationCustom04" name="password" placeholder="Şifre"
+                       minlength="6" required>
+                <div class="invalid-feedback">
+                    En az 6 karakterli bir şifre girin!
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="validationCustom05">Şifre Yeniden</label>
+                <input type="password" class="form-control" id="validationCustom05" name="repassword"
+                       placeholder="Şifre Yeniden" minlength="6" required>
+                <div class="invalid-feedback">
+                    En az 6 karakterli bir şifre girin!
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                <label class="form-check-label" for="invalidCheck">
+                    Şart ve koşulları kabul ediyorum.
+                </label>
+                <div class="invalid-feedback">
+                    Kayıt olmak için şart ve koşulları kabul etmelisin.
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-success btn-block" type="submit">Kaydol</button>
+    </form>
+    {% endif %}
+
+</div>
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+
+</script>
+{% endblock %}
